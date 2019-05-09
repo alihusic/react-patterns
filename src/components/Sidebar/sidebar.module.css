@@ -1,0 +1,33 @@
+.toggle {
+    position: absolute;
+    right:0;
+    top: 0;
+    transform: translateX(100%);
+    z-index: 10000;
+}
+
+.navigation {
+    height: 100vh;
+    background-color: #323232 !important;
+}
+
+.logo {
+    max-width: 100%;
+}
+
+.logo-wrapper {
+    margin-bottom: 20px;
+}
+
+.link {
+    color: white;
+}
+
+.link-active{
+    color: #00D8FF;
+}
+
+.link:hover {
+    color: #00D8FF;
+    text-decoration: none;
+}
