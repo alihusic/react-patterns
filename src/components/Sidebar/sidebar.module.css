@@ -21,6 +21,7 @@
 
 .link {
     color: white;
+    margin-bottom: 10px;
 }
 
 .link-active{
@@ -30,4 +31,19 @@
 .link:hover {
     color: #00D8FF;
     text-decoration: none;
+}
+
+.logout{
+    background:none!important;
+    color:inherit;
+    border:none;
+    padding:0!important;
+    font: inherit;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+}
+
+.logout:hover{
+    color: #00D8FF;
 }

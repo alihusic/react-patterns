@@ -1,13 +1,25 @@
 import React, {Component, Fragment} from 'react';
-import {Router, Route} from 'react-router';
-import createHistory from 'history/createBrowserHistory';
+import {Router, Route, Switch, Redirect} from 'react-router';
+import {createBrowserHistory} from 'history';
 import Sidebar from "./components/Sidebar/Sidebar";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import * as classnames from "classnames";
 import Charts from "./components/Charts/Charts";
+import {bindActionCreators} from "redux";
+import {clearUser, getUser} from "./redux/user";
+import {connect} from "react-redux";
+import Login from "./components/Login";
 
-const history = createHistory();
+const history = createBrowserHistory();
+
+const loginRoute = {
+    path: "/login",
+    exact: true,
+    component: Login,
+    public: true,
+    label: "Login"
+};
 
 export const routes = [
     {
@@ -28,26 +40,44 @@ export const routes = [
         component: Charts,
         label: "Charts"
     },
+    loginRoute
 ];
 
+
+
 class AppRoute extends Component {
+
+    async componentDidMount() {
+        await this.props.getUser();
+        console.log("CLEARING USER");
+        this.props.clearUser();
+    }
+
     render() {
 
         return (
             <Fragment>
                 <main className="main">
                     <Router history={history}>
-                        <Sidebar/>
-                        <Route render={({ location, history }) => (
-                            <React.Fragment>
+                        <Sidebar history={history} />
+                            <Fragment>
                                 <main className={classnames("container")}>
-                                    {routes.map(route => {
-                                        return <Route path={route.path} exact component={route.component}/>
-                                    })}
+                                    <Switch>
+                                        {!this.props.user &&
+                                            <Fragment>
+                                                <Route exact path={loginRoute.path} component={loginRoute.component} />
+                                                <Redirect to={loginRoute.path} />
+                                            </Fragment>
+                                        }
+                                        {routes.map(route => {
+                                            return <Route key={route.path} path={route.path} exact component={route.component}/>
+                                        })}
+                                        <Redirect to={"/"} />
+                                    </Switch>
+
                                 </main>
-                            </React.Fragment>
-                        )}
-                        />
+                            </Fragment>
+
                     </Router>
                 </main>
 
@@ -56,5 +86,20 @@ class AppRoute extends Component {
     }
 }
 
+function mapState(state){
+    return {
+        user: state.user
+    }
+}
 
-export default AppRoute;
+
+function mapActions(dispatch) {
+    return bindActionCreators({
+        getUser,
+        clearUser
+    }, dispatch);
+}
+
+
+export default connect(mapState, mapActions)(AppRoute);
+

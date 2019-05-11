@@ -5,6 +5,9 @@ import * as classnames from "classnames";
 import logo from "./logo.png";
 import '../../../node_modules/hamburgers/dist/hamburgers.min.css';
 import {routes} from "../../AppRouter";
+import connect from "react-redux/es/connect/connect";
+import {bindActionCreators} from "redux";
+import {clearUser, getUser} from "../../redux/user";
 
 // Set prop types
 type SidebarProps = {};
@@ -14,7 +17,7 @@ class Sidebar extends React.Component<SidebarProps> {
         super(props);
 
         this.state = {
-            sidebarIsOpen: true
+            sidebarIsOpen: false
         };
     }
 
@@ -22,6 +25,18 @@ class Sidebar extends React.Component<SidebarProps> {
         const fullKey = `${key}IsOpen`;
         this.setState({ [fullKey]: !this.state[fullKey] });
     };
+
+    componentDidMount() {
+        this.unlisten = this.props.history.listen( location =>  {
+            console.log("CHANGING SIDEBAR");
+            this.toggle('sidebar')();
+        });
+    }
+
+    componentWillUnmount() {
+        this.unlisten();
+
+    }
 
 
     render() {
@@ -41,9 +56,11 @@ class Sidebar extends React.Component<SidebarProps> {
 
                     <div className="d-flex flex-column" >
                         {routes.map(route => {
-                            return <NavLink exact={true} to={route.path} activeClassName={css['link-active']} className={css.link}>{route.label} </NavLink>
+                            return !route.public ? <NavLink key={route.path} exact={true} to={route.path} activeClassName={css['link-active']} className={css.link}>{route.label} </NavLink> : undefined;
                         })}
-
+                        <button onClick={this.props.clearUser} className={css.logout}>
+                            Logout
+                        </button>
                     </div>
 
                 </div>
@@ -54,6 +71,21 @@ class Sidebar extends React.Component<SidebarProps> {
 }
 
 // Set default props
-Sidebar.defaultProps = {};
+Sidebar.defaultProps = {
+    history: {}
+};
 
-export default Sidebar;
+function mapState(state){
+    return {
+        user: state.user
+    }
+}
+
+
+function mapActions(dispatch) {
+    return bindActionCreators({
+        clearUser
+    }, dispatch);
+}
+
+export default connect(mapState, mapActions)(Sidebar);
