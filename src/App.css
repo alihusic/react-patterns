@@ -7,6 +7,18 @@ button:focus{
     outline: none !important;
 }
 
+.theme-button {
+    background-color: #00D8FF !important;
+    border: 0  !important;
+}
+
+.error {
+    border: 1px solid red;
+}
+
+.error-message {
+    color: red;
+}
 
 #sidebar, #content {
     height: 100%;
@@ -19,6 +31,7 @@ button:focus{
     top:0;
     width: 180px;
     height: 100vh;
+    z-index: 1000;
 }
 
 #sidebar.collapsed {

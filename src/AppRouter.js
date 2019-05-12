@@ -9,7 +9,10 @@ import Charts from "./components/Charts/Charts";
 import {bindActionCreators} from "redux";
 import {clearUser, getUser} from "./redux/user";
 import {connect} from "react-redux";
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
+import Tables from "./components/Tables/Tables";
+import {ToastContainer} from "react-toastify";
+
 
 const history = createBrowserHistory();
 
@@ -17,7 +20,7 @@ const loginRoute = {
     path: "/login",
     exact: true,
     component: Login,
-    public: true,
+    guestOnly: true,
     label: "Login"
 };
 
@@ -25,20 +28,31 @@ export const routes = [
     {
         path: "/",
         exact: true,
+        authenticated: true,
         component: Home,
         label: "Home"
     },
     {
         path: "/about",
         exact: true,
+        authenticated: true,
+        public: true,
         component: About,
         label: "About"
     },
     {
         path: "/charts",
         exact: true,
+        authenticated: true,
         component: Charts,
         label: "Charts"
+    },
+    {
+        path: "/tables",
+        exact: true,
+        authenticated: true,
+        component: Tables,
+        label: "Tables"
     },
     loginRoute
 ];
@@ -47,36 +61,52 @@ export const routes = [
 
 class AppRoute extends Component {
 
-    async componentDidMount() {
-        await this.props.getUser();
-        console.log("CLEARING USER");
-        this.props.clearUser();
+    componentDidMount() {
+        // this.props.getUser();
+    }
+
+    renderRoutes() {
+        const authenticated = this.props.user.auth;
+        if (authenticated) {
+            return <Switch>
+                {routes.map(route => {
+                    return route.authenticated || route.public ? <Route key={route.path} path={route.path} exact component={route.component}/> : undefined
+                })}
+                <Redirect to={"/"} />
+            </Switch>
+        } else {
+            return <Switch>
+                {routes.map(route => {
+                    return route.public || route.guestOnly ? <Route key={route.path} path={route.path} exact component={route.component}/> : undefined
+                })}
+                <Redirect to={loginRoute.path} />
+            </Switch>
+        }
     }
 
     render() {
-
         return (
             <Fragment>
                 <main className="main">
                     <Router history={history}>
                         <Sidebar history={history} />
-                            <Fragment>
-                                <main className={classnames("container")}>
-                                    <Switch>
-                                        {!this.props.user &&
-                                            <Fragment>
-                                                <Route exact path={loginRoute.path} component={loginRoute.component} />
-                                                <Redirect to={loginRoute.path} />
-                                            </Fragment>
-                                        }
-                                        {routes.map(route => {
-                                            return <Route key={route.path} path={route.path} exact component={route.component}/>
-                                        })}
-                                        <Redirect to={"/"} />
-                                    </Switch>
+                        <ToastContainer
+                            position="top-left"
+                            autoClose={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            pauseOnVisibilityChange
+                            draggable
+                        />
+                        <Fragment>
+                            <main className={classnames("container")}>
+                                <Switch>
+                                    {this.renderRoutes()}
 
-                                </main>
-                            </Fragment>
+                                </Switch>
+
+                            </main>
+                        </Fragment>
 
                     </Router>
                 </main>

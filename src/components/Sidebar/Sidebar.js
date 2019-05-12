@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { NavLink } from 'react-router-dom'
 import css from './sidebar.module.css';
 import * as classnames from "classnames";
@@ -8,6 +8,7 @@ import {routes} from "../../AppRouter";
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
 import {clearUser, getUser} from "../../redux/user";
+import {createMessage} from "../Util/notification";
 
 // Set prop types
 type SidebarProps = {};
@@ -28,16 +29,40 @@ class Sidebar extends React.Component<SidebarProps> {
 
     componentDidMount() {
         this.unlisten = this.props.history.listen( location =>  {
-            console.log("CHANGING SIDEBAR");
             this.toggle('sidebar')();
         });
     }
 
     componentWillUnmount() {
         this.unlisten();
-
     }
 
+    handleLogout = () => () => {
+        createMessage("Successfully logged out.");
+        this.props.clearUser();
+    };
+
+    renderLinks() {
+        const authenticated = this.props.user.auth;
+        if (authenticated) {
+            return <Fragment>
+                {routes.map(route => {
+                    return route.authenticated || route.public ? <NavLink key={route.path} exact={true} to={route.path} activeClassName={css['link-active']} className={css.link}>{route.label} </NavLink> : undefined;
+                })}
+                <button onClick={this.handleLogout()} className={css.logout}>
+                    Logout
+                </button>
+            </Fragment>
+        } else {
+            return <Fragment>
+                {routes.map(route => {
+                    return route.public || route.guestOnly ? <NavLink key={route.path} exact={true} to={route.path} activeClassName={css['link-active']} className={css.link}>{route.label} </NavLink> : undefined;
+                })}
+            </Fragment>
+        }
+
+
+    }
 
     render() {
         const collapsed = this.state.sidebarIsOpen ? "" : "collapsed";
@@ -55,12 +80,8 @@ class Sidebar extends React.Component<SidebarProps> {
                     </NavLink>
 
                     <div className="d-flex flex-column" >
-                        {routes.map(route => {
-                            return !route.public ? <NavLink key={route.path} exact={true} to={route.path} activeClassName={css['link-active']} className={css.link}>{route.label} </NavLink> : undefined;
-                        })}
-                        <button onClick={this.props.clearUser} className={css.logout}>
-                            Logout
-                        </button>
+                        {this.renderLinks()}
+
                     </div>
 
                 </div>

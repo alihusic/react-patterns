@@ -7,28 +7,20 @@ export const CLEAR_USER = "CLEAR_USER";
 export default function (state = initState, action) {
     switch (action.type) {
         case GET_USER:
-            return {...state, user: action.payload };
-        default:
-            return state;
-    }
-}
-
-export function logout(state = initState, action) {
-    switch (action.type) {
+            return {...state, ...action.payload };
         case CLEAR_USER:
-            return {...state, user: undefined};
+            return {...state, ...action.payload};
         default:
             return state;
     }
 }
-
 
 export const getUser = () => ({
     type: GET_USER,
-    payload: "Authenticated"
+    payload: {auth: true}
 });
 
 export const clearUser = () => ({
     type: CLEAR_USER,
-    payload: {user: undefined, test: "DADAD"}
+    payload: {auth: false}
 });
