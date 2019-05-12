@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import Login from "./components/Login/Login";
 import Tables from "./components/Tables/Tables";
 import {ToastContainer} from "react-toastify";
+import Settings from "./components/Settings/Settings";
 
 
 const history = createBrowserHistory();
@@ -54,6 +55,13 @@ export const routes = [
         component: Tables,
         label: "Tables"
     },
+    {
+        path: "/settings",
+        exact: true,
+        authenticated: true,
+        component: Settings,
+        label: "Settings"
+    },
     loginRoute
 ];
 
@@ -62,7 +70,7 @@ export const routes = [
 class AppRoute extends Component {
 
     componentDidMount() {
-        // this.props.getUser();
+        this.props.getUser();
     }
 
     renderRoutes() {
