@@ -1,0 +1,30 @@
+.footer {
+    min-height: 100px;
+    margin-top: 25px;
+    padding: 25px 0;
+    background-color: #3c3c3c;
+    color: white;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 24px;
+    opacity: 0.3;
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+.footer h4 {
+    font-size: 18px !important;
+}
+
+.footer p {
+    opacity: 0.6;
+}
+
+.footer-list {
+    margin: 0 !important;
+    padding: 0;
+    list-style: none;
+    opacity: 0.6;
+}

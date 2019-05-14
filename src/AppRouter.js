@@ -13,6 +13,7 @@ import Login from "./components/Login/Login";
 import Tables from "./components/Tables/Tables";
 import {ToastContainer} from "react-toastify";
 import Settings from "./components/Settings/Settings";
+import Footer from "./components/Footer/Footer";
 
 
 const history = createBrowserHistory();
@@ -116,8 +117,10 @@ class AppRoute extends Component {
                             </main>
                         </Fragment>
 
+
                     </Router>
                 </main>
+                <Footer />
 
             </Fragment>
         );

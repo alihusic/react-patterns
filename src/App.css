@@ -1,6 +1,8 @@
 .main {
     display: flex;
+    flex-direction: column;
     padding-top: 85px;
+    min-height: calc(100vh - 215px);
 }
 
 button:focus{
@@ -20,6 +22,10 @@ button:focus{
     color: red;
 }
 
+.recharts-wrapper > svg {
+    max-width: 100%;
+}
+
 #sidebar, #content {
     height: 100%;
     transition: left .35s;
@@ -29,13 +35,13 @@ button:focus{
     position: fixed !important;
     left:0;
     top:0;
-    width: 180px;
+    width: 200px;
     height: 100vh;
     z-index: 1000;
 }
 
 #sidebar.collapsed {
-    left: -180px;
+    left: -200px;
 }
 
 #sidebar-content {

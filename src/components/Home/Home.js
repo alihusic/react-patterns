@@ -1,4 +1,6 @@
 import React, {Fragment} from 'react';
+import Charts from "../Charts/Charts";
+import Tables from "../Tables/Tables";
 
 
 // Set prop types

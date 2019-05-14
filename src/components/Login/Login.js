@@ -48,8 +48,11 @@ class Login extends React.Component<LoginProps> {
     handleSubmit = () => (e) => {
         e.preventDefault();
         const validated = this.validateForm();
-        if (validated) this.props.getUser();
-        createMessage("Successfully logged in.");
+        if (validated) {
+            this.props.getUser();
+            createMessage("Successfully logged in.");
+        }
+
     };
 
 
