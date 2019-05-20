@@ -63,7 +63,7 @@ class Settings extends React.Component<SettingsProps> {
                 <h3>Settings</h3>
                 <form className={css.form} onSubmit={this.handleSubmit()}>
                     {fields.map(field => {
-                        return <div className={css["field-wrapper"]}>
+                        return <div key={field.key} className={css["field-wrapper"]}>
                             <label htmlFor={field.key}>{field.label}</label>
                             <Input className={errors[field.key] && 'error'} value={this.state[field.key]} onChange={this.handleInputChange()} name={field.key} />
                             {errors[field.key] && <div className="error-message">{errors[field.key]}</div>}

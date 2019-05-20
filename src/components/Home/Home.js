@@ -7,12 +7,6 @@ import Tables from "../Tables/Tables";
 type HomeProps = {};
 
 class Home extends React.Component<HomeProps> {
-    componentDidMount() {
-    }
-
-    componentDidUpdate() {
-    }
-
     render() {
 
         return (

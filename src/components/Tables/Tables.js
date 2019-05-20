@@ -1,6 +1,7 @@
 import React from 'react';
 import {Table} from "reactstrap";
-
+import css from './tables.module.css';
+import * as classnames from "classnames";
 
 // Set prop types
 type TablesProps = {};
@@ -17,6 +18,24 @@ const testData = [
         lastName: "Begovic",
         amount: 35,
         delivered: "Not delivered"
+    },
+    {
+        name: "Ali",
+        lastName: "Husic",
+        amount: 99,
+        delivered: "Not delivered"
+    },
+    {
+        name: "John",
+        lastName: "Snow",
+        amount: 130,
+        delivered: "Not delivered"
+    },
+    {
+        name: "John",
+        lastName: "Doe",
+        amount: 150,
+        delivered: "Delivered"
     },
 ];
 
@@ -49,19 +68,19 @@ class Tables extends React.Component<TablesProps> {
     render() {
 
         return (
-            <Table>
-                <thead className="thead-dark">
+            <Table className={classnames(css.table, "table-striped")}>
+                <thead className="thead-light">
                     <tr>
                         {this.props.headers.map(header =>
-                            <td>{header.label}</td>
+                            <th key={header.key}>{header.label}</th>
                         )}
                     </tr>
                 </thead>
                 <tbody>
-                {this.props.data.map(dataEntry =>
-                    <tr>
+                {this.props.data.map((dataEntry, index) =>
+                    <tr key={`${dataEntry.name}-${index}`}>
                         {this.props.headers.map(header =>
-                            <td>{dataEntry[header.key]}</td>
+                            <td key={header.key}>{dataEntry[header.key]}</td>
                         )}
                     </tr>
                 )}

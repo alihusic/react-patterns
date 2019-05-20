@@ -2,6 +2,10 @@
     max-width: 100%;
 }
 .chart-wrapper {
-    /*max-width: 600px;*/
     max-width: 100%;
+}
+
+.chart-title {
+    color: #3c3c3c;
+    opacity: 0.9;
 }

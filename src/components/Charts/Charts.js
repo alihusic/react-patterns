@@ -47,6 +47,7 @@ class Charts extends React.Component<ChartsProps> {
                 <h3>Charts</h3>
                 <Row className="mb-4">
                     <Col sm={12} md={6}>
+                        <h5 className={css['chart-title']}>Monthly revenue overview</h5>
                         <LineChart className={css['chart-wrapper']} width={600} height={300} data={monthlyRevenueData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                             <Line type="monotone" dataKey="profits" stroke="#00D8FF" />
                             <Line type="monotone" dataKey="expenses" stroke="#7727FF"/>
@@ -56,6 +57,7 @@ class Charts extends React.Component<ChartsProps> {
                         </LineChart>
                     </Col>
                     <Col sm={12} md={6}>
+                        <h5 className={css['chart-title']}>Employee overview</h5>
                         <LineChart className={css['chart-wrapper']} width={600} height={300} data={employeeData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                             <Line type="monotone" dataKey="numberEmployees" stroke="#00D8FF" />
                             <XAxis dataKey="name" />
@@ -63,10 +65,13 @@ class Charts extends React.Component<ChartsProps> {
                             <Tooltip />
                         </LineChart>
                     </Col>
+
                 </Row>
                 <Row>
-                    <Col sm={12}>
-                        <LineChart className={css['chart-wrapper']} width={1100} height={300} data={taxData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+
+                    <Col sm={12} md={{ size: 6, offset: 3}}>
+                        <h5 className={css['chart-title']}>Tax overview</h5>
+                        <LineChart className={css['chart-wrapper']} width={600} height={300} data={taxData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                             <Line type="monotone" dataKey="taxReturn" stroke="#00D8FF" />
                             <Line type="monotone" dataKey="totalTax" stroke="#7727FF"/>
                             <XAxis dataKey="name" />
